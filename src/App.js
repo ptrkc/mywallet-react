@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignIn from "./SignIn";
+import SignIn from "./Sign/SignIn";
+import ResetCSS from "./styles/ResetCSS";
 import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
     return (
         <Router>
+            <ResetCSS />
             <GlobalStyle />
             <Switch>
                 <Route path="/sign-in" exact>
