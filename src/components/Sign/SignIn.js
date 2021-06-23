@@ -17,13 +17,12 @@ export default function SignIn() {
         //verificar formato do email
         const body = { email, password };
         //Travar botões/inputs
-        const request = axios.post("http://localhost:4000/sign-in", {}, body);
+        const request = axios.post("http://localhost:4000/sign-in", body);
         request.then((response) => {
             console.log(response.data);
         });
         request.catch((error) => {
-            alert(error.response);
-            console.log(error.response);
+            alert(error.response.status + ": " + error.response.data);
         });
     }
     return (

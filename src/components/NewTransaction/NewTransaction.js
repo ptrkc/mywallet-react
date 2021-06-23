@@ -21,11 +21,7 @@ export default function NewTransaction({ type }) {
             type,
         };
         //Travar botões/inputs
-        const request = axios.post(
-            "http://localhost:4000/new-transaction",
-            {},
-            body
-        );
+        const request = axios.post("http://localhost:4000/transaction", body);
         request.then((response) => {
             console.log(response.data);
             history.push("/home");

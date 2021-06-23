@@ -29,14 +29,12 @@ export default function SignUp() {
         //verificar formato do email
         const body = { name, email, password };
         //Travar botões/inputs
-        const request = axios.post("http://localhost:4000/sign-up", {}, body);
+        const request = axios.post("http://localhost:4000/sign-up", body);
         request.then((response) => {
-            console.log(response.data);
             history.push("/sign-in");
         });
         request.catch((error) => {
-            alert(error.response);
-            console.log(error.response);
+            alert(error.response.status + ": " + error.response.data);
         });
     }
     return (
