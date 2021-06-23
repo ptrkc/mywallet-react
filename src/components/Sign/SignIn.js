@@ -1,12 +1,15 @@
 import StyledForm from "../styles/StyledForm";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import SignPageStyle from "./SignPagesStyle";
-import { useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import axios from "axios";
+import UserContext from "../../contexts/UserContext";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { user, setUser } = useContext(UserContext);
+    const history = useHistory();
 
     function signIn(e) {
         e.preventDefault();
@@ -19,7 +22,9 @@ export default function SignIn() {
         //Travar botões/inputs
         const request = axios.post("http://localhost:4000/sign-in", body);
         request.then((response) => {
-            console.log(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
+            setUser(response.data);
+            history.push("/");
         });
         request.catch((error) => {
             alert(error.response.status + ": " + error.response.data);

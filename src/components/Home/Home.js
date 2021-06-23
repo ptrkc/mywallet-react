@@ -3,15 +3,24 @@ import styled from "styled-components";
 import TransactionsCard from "./TransactionsCard";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import UserContext from "../../contexts/UserContext";
+import { useContext, useEffect } from "react";
 
 export default function SignIn() {
     const history = useHistory();
-    const name = "Fulano";
+    const { user, setUser } = useContext(UserContext);
+
+    function signOut() {
+        localStorage.removeItem("user");
+        setUser(null);
+        history.push("/sign-in");
+    }
+
     return (
         <PageStyle>
             <Title>
-                <h2>Olá, {name}</h2>
-                <button>
+                <h2>Olá, {user?.name}</h2>
+                <button onClick={signOut}>
                     <RiLogoutBoxRLine />
                 </button>
             </Title>

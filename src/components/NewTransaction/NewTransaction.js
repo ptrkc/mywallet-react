@@ -1,17 +1,20 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 import StyledForm from "../styles/StyledForm";
 
 export default function NewTransaction({ type }) {
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
+    const { user, setUser } = useContext(UserContext);
+
     const history = useHistory();
     const displayType = type === "income" ? "entrada" : "saída";
     function sendNewTransaction(e) {
         e.preventDefault();
-        if (!value.trim() || parseInt(value) === 0 || !description.trim()) {
+        if (!value.trim() || parseInt(value) > 0 || !description.trim()) {
             alert("Todos os campos devem ser preenchidos");
             return;
         }
@@ -21,7 +24,16 @@ export default function NewTransaction({ type }) {
             type,
         };
         //Travar botões/inputs
-        const request = axios.post("http://localhost:4000/transaction", body);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+        const request = axios.post(
+            "http://localhost:4000/transaction",
+            body,
+            config
+        );
         request.then((response) => {
             console.log(response.data);
             history.push("/home");

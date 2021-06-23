@@ -6,29 +6,97 @@ export default function TransactionsCard() {
     const [transactions, setTransactions] = useState(false);
     const [balance, setBalance] = useState(false);
     const tempTransactions = [
-        { id: 12, name: "Celular", value: -240000, date: "2021-06-22" },
-        { id: 11, name: "Açaí", value: -1590, date: "2021-06-22" },
-        { id: 10, name: "Achei na rua", value: 1000, date: "2021-06-22" },
+        {
+            id: 12,
+            name: "Celular",
+            value: 240000,
+            type: "expense",
+            date: "2021-06-22",
+        },
+        {
+            id: 11,
+            name: "Açaí",
+            value: 1590,
+            type: "expense",
+            date: "2021-06-22",
+        },
+        {
+            id: 10,
+            name: "Achei na rua",
+            value: 1000,
+            type: "income",
+            date: "2021-06-22",
+        },
         {
             id: 9,
             name: "Berger Kingue Zinho",
-            value: -3190,
+            value: 3190,
+            type: "expense",
             date: "2021-06-21",
         },
-        { id: 8, name: "Paçoca", value: -200, date: "2021-06-21" },
-        { id: 7, name: "Gasolina", value: -5000, date: "2021-06-21" },
-        { id: 6, name: "Cerveja", value: -2990, date: "2021-06-21" },
-        { id: 5, name: "Job", value: 70000, date: "2021-06-21" },
+        {
+            id: 8,
+            name: "Paçoca",
+            value: 200,
+            type: "expense",
+            date: "2021-06-21",
+        },
+        {
+            id: 7,
+            name: "Gasolina",
+            value: 5000,
+            type: "expense",
+            date: "2021-06-21",
+        },
+        {
+            id: 6,
+            name: "Cerveja",
+            value: 2990,
+            type: "expense",
+            date: "2021-06-21",
+        },
+        {
+            id: 5,
+            name: "Job",
+            value: 70000,
+            type: "income",
+            date: "2021-06-21",
+        },
         {
             id: 4,
             name: "Berger Kingue Zinho",
-            value: -3190,
+            value: 3190,
+            type: "expense",
             date: "2021-06-20",
         },
-        { id: 3, name: "Paçoca", value: -200, date: "2021-06-20" },
-        { id: 2, name: "Gasolina", value: -5000, date: "2021-06-20" },
-        { id: 1, name: "Cerveja", value: -2990, date: "2021-06-20" },
-        { id: 0, name: "Job", value: 70000, date: "2021-06-20" },
+        {
+            id: 3,
+            name: "Paçoca",
+            value: 200,
+            type: "expense",
+            date: "2021-06-20",
+        },
+        {
+            id: 2,
+            name: "Gasolina",
+            value: 5000,
+            type: "expense",
+            date: "2021-06-20",
+        },
+        {
+            id: 1,
+            name: "Cerveja",
+            value: 2990,
+            type: "expense",
+            date: "2021-06-20",
+        },
+        {
+            id: 0,
+            name: "Job",
+            value: 70000,
+            type: "income",
+            date: "2021-06-20",
+        },
     ];
     useEffect(() => {
         setTimeout(() => {
@@ -48,7 +116,13 @@ export default function TransactionsCard() {
             return;
         }
         let total = 0;
-        transactions.forEach((t) => (total += t.value));
+        transactions.forEach((t) => {
+            if (t.type === "expense") {
+                total = total + t.value;
+            } else {
+                total = total - t.value;
+            }
+        });
         const strTotal = String(total);
         const formatedBalance =
             strTotal.slice(0, strTotal.length - 2) + "," + strTotal.slice(-2);
@@ -73,7 +147,7 @@ export default function TransactionsCard() {
                             value.slice(-2);
                         const date = dayjs(t.date).format("DD/MM");
                         return (
-                            <Transaction value={t.value >= 0} key={t.id}>
+                            <Transaction type={t.type} key={t.id}>
                                 <div>
                                     <span>{date}</span> {t.name}
                                 </div>
@@ -135,7 +209,7 @@ const Transaction = styled.li`
     }
     & > span {
         margin-left: 5px;
-        color: ${(props) => (props.value ? "#03AC00" : "#C70000")};
+        color: ${(props) => (props.type === "income" ? "#03AC00" : "#C70000")};
     }
 `;
 

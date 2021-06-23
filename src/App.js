@@ -5,30 +5,37 @@ import Home from "./components/Home/Home";
 import ResetCSS from "./components/styles/ResetCSS";
 import GlobalStyle from "./components/styles/GlobalStyle";
 import NewTransaction from "./components/NewTransaction/NewTransaction";
+import { useEffect, useState } from "react";
+import UserContext from "./contexts/UserContext";
+import User from "./components/User";
 
 function App() {
+    const [user, setUser] = useState(null);
     return (
-        <Router>
-            <ResetCSS />
-            <GlobalStyle />
-            <Switch>
-                <Route path="/sign-in" exact>
-                    <SignIn />
-                </Route>
-                <Route path="/sign-up" exact>
-                    <SignUp />
-                </Route>
-                <Route path="/home" exact>
-                    <Home />
-                </Route>
-                <Route path="/new-income" exact>
-                    <NewTransaction type="income" />
-                </Route>
-                <Route path="/new-expense" exact>
-                    <NewTransaction type="expense" />
-                </Route>
-            </Switch>
-        </Router>
+        <UserContext.Provider value={{ user, setUser }}>
+            <Router>
+                <ResetCSS />
+                <GlobalStyle />
+                <User />
+                <Switch>
+                    <Route path="/sign-in" exact>
+                        <SignIn />
+                    </Route>
+                    <Route path="/sign-up" exact>
+                        <SignUp />
+                    </Route>
+                    <Route path="/" exact>
+                        <Home />
+                    </Route>
+                    <Route path="/new-income" exact>
+                        <NewTransaction type="income" />
+                    </Route>
+                    <Route path="/new-expense" exact>
+                        <NewTransaction type="expense" />
+                    </Route>
+                </Switch>
+            </Router>
+        </UserContext.Provider>
     );
 }
 
