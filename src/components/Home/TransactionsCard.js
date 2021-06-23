@@ -1,114 +1,55 @@
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import UserContext from "../../contexts/UserContext";
 
 export default function TransactionsCard() {
     const [transactions, setTransactions] = useState(false);
     const [balance, setBalance] = useState(false);
+    const { user } = useContext(UserContext);
     const tempTransactions = [
         {
             id: 12,
-            name: "Celular",
-            value: 240000,
+            description: "Celular",
+            value: 0,
             type: "expense",
             date: "2021-06-22",
         },
         {
             id: 11,
-            name: "Açaí",
-            value: 1590,
-            type: "expense",
-            date: "2021-06-22",
-        },
-        {
-            id: 10,
-            name: "Achei na rua",
-            value: 1000,
+            description: "Açaí",
+            value: 1,
             type: "income",
             date: "2021-06-22",
-        },
-        {
-            id: 9,
-            name: "Berger Kingue Zinho",
-            value: 3190,
-            type: "expense",
-            date: "2021-06-21",
-        },
-        {
-            id: 8,
-            name: "Paçoca",
-            value: 200,
-            type: "expense",
-            date: "2021-06-21",
-        },
-        {
-            id: 7,
-            name: "Gasolina",
-            value: 5000,
-            type: "expense",
-            date: "2021-06-21",
-        },
-        {
-            id: 6,
-            name: "Cerveja",
-            value: 2990,
-            type: "expense",
-            date: "2021-06-21",
-        },
-        {
-            id: 5,
-            name: "Job",
-            value: 70000,
-            type: "income",
-            date: "2021-06-21",
-        },
-        {
-            id: 4,
-            name: "Berger Kingue Zinho",
-            value: 3190,
-            type: "expense",
-            date: "2021-06-20",
-        },
-        {
-            id: 3,
-            name: "Paçoca",
-            value: 200,
-            type: "expense",
-            date: "2021-06-20",
-        },
-        {
-            id: 2,
-            name: "Gasolina",
-            value: 5000,
-            type: "expense",
-            date: "2021-06-20",
-        },
-        {
-            id: 1,
-            name: "Cerveja",
-            value: 2990,
-            type: "expense",
-            date: "2021-06-20",
-        },
-        {
-            id: 0,
-            name: "Job",
-            value: 70000,
-            type: "income",
-            date: "2021-06-20",
         },
     ];
     useEffect(() => {
-        setTimeout(() => {
-            setTransactions(tempTransactions);
-        }, 1000);
-    }, []);
+        if (user) {
+            getTransactions();
+        }
+    }, [user]);
 
     useEffect(() => {
         if (transactions) {
             calculateBalance();
         }
     }, [transactions]);
+
+    function getTransactions() {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+        const request = axios.get("http://localhost:4000/transactions", config);
+        request.then((response) => {
+            setTransactions(response.data);
+        });
+        request.catch((error) => {
+            alert(error.response);
+        });
+    }
 
     function calculateBalance() {
         console.log(transactions.length);
@@ -117,16 +58,15 @@ export default function TransactionsCard() {
         }
         let total = 0;
         transactions.forEach((t) => {
-            if (t.type === "expense") {
-                total = total + t.value;
-            } else {
-                total = total - t.value;
-            }
+            t.type === "income" ? (total += t.value) : (total -= t.value);
         });
-        const strTotal = String(total);
-        const formatedBalance =
-            strTotal.slice(0, strTotal.length - 2) + "," + strTotal.slice(-2);
-        setBalance(formatedBalance);
+        const positive = total >= 0 ? true : false;
+        const strTotal = String(total).replace("-", "").padStart(3, "0");
+        const formatedBalance = `${strTotal.slice(
+            0,
+            strTotal.length - 2
+        )},${strTotal.slice(-2)}`;
+        setBalance({ value: formatedBalance, positive });
     }
 
     return (
@@ -140,7 +80,7 @@ export default function TransactionsCard() {
             {transactions && !!transactions.length && (
                 <ul>
                     {transactions.map((t) => {
-                        const value = String(t.value).replace("-", "");
+                        const value = String(t.value).padStart(3, "0");
                         const formatedValue =
                             value.slice(0, value.length - 2) +
                             "," +
@@ -149,7 +89,7 @@ export default function TransactionsCard() {
                         return (
                             <Transaction type={t.type} key={t.id}>
                                 <div>
-                                    <span>{date}</span> {t.name}
+                                    <span>{date}</span> {t.description}
                                 </div>
                                 <span> {formatedValue}</span>
                             </Transaction>
@@ -158,9 +98,9 @@ export default function TransactionsCard() {
                 </ul>
             )}
             {balance && (
-                <Balance balance={parseInt(balance) >= 0}>
+                <Balance positive={balance.positive}>
                     <strong>SALDO:</strong>
-                    <span> {balance}</span>
+                    <span> {balance.value}</span>
                 </Balance>
             )}
         </CardStyle>
@@ -223,6 +163,6 @@ const Balance = styled.div`
     padding: 0px 15px;
     background-color: #fff;
     span {
-        color: ${(props) => (props.balance ? "#03AC00" : "#C70000")};
+        color: ${(props) => (props.positive ? "#03AC00" : "#C70000")};
     }
 `;

@@ -8,7 +8,7 @@ import StyledForm from "../styles/StyledForm";
 export default function NewTransaction({ type }) {
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const history = useHistory();
     const displayType = type === "income" ? "entrada" : "saída";
