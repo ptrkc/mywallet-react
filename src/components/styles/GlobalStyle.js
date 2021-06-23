@@ -8,11 +8,12 @@ const GlobalStyle = createGlobalStyle`
     background-color: #8C11BE;
     color: #fff;
     font-family: 'Raleway', sans-serif;
+    min-width: 320px;
   }
   h1 {
     font-family: 'Saira Stencil One', cursive;
     font-size: 32px;
-    margin: 24px auto;
+    margin: 0px auto 24px;
   }
   button,
   input {
@@ -21,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     background-color: #A328D6;
     border-radius: 5px;
+    cursor: pointer;
   }
   input::placeholder {
     opacity: 1;

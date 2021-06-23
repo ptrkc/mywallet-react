@@ -85,6 +85,7 @@ const PageStyle = styled.div`
     display: flex;
     flex-direction: column;
     height: 100vh;
+    max-height: 100vh;
     padding: 0px 25px;
     h2 {
         font-size: 26px;
