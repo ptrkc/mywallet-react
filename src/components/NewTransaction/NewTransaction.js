@@ -12,15 +12,30 @@ export default function NewTransaction({ type }) {
 
     const history = useHistory();
     const displayType = type === "income" ? "entrada" : "saída";
+
+    function changeValue(e) {
+        let newValue = parseInt(e.target.value.replace(/\D/g, ""));
+        if (isNaN(newValue)) newValue = 0;
+        newValue = String(newValue).padStart(3, "0");
+        newValue = `${newValue.slice(0, newValue.length - 2)},${newValue.slice(
+            -2
+        )}`;
+        setValue(newValue);
+    }
+
     function sendNewTransaction(e) {
         e.preventDefault();
-        if (!value.trim() || parseInt(value) > 0 || !description.trim()) {
+        if (
+            !value.trim() ||
+            parseInt(value.replace(",", "")) < 0 ||
+            !description.trim()
+        ) {
             alert("Todos os campos devem ser preenchidos");
             return;
         }
         const body = {
             description,
-            value: parseInt(value),
+            value: parseInt(value.replace(",", "")),
             type,
         };
         //Travar botões/inputs
@@ -35,12 +50,10 @@ export default function NewTransaction({ type }) {
             config
         );
         request.then((response) => {
-            console.log(response.data);
-            history.push("/home");
+            history.push("/");
         });
         request.catch((error) => {
             alert(error.response);
-            console.log(error.response);
         });
     }
 
@@ -49,9 +62,12 @@ export default function NewTransaction({ type }) {
             <Title>Nova {displayType}</Title>
             <input
                 placeholder="Valor"
-                type="number"
+                type="text"
+                inputmode="numeric"
+                step="0.01"
+                lang="pt-BR"
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => changeValue(e)}
             ></input>
             <input
                 placeholder="Descrição"

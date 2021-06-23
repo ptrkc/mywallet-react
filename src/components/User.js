@@ -6,10 +6,9 @@ export default function User() {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(localStorage.user, user);
         if (localStorage.user && user === null) {
             setUser(JSON.parse(localStorage.user));
-        } else if (!localStorage.user && user === null) {
+        } else if (!localStorage.user) {
             history.push("/sign-in");
         }
     }, [user]);

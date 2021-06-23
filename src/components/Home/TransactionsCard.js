@@ -118,7 +118,7 @@ const CardStyle = styled.div`
     color: #000000;
     ul {
         max-height: calc(100vh - 250px);
-        overflow: scroll;
+        overflow-y: auto;
         padding: 23px 15px;
         background-color: transparent;
     }
