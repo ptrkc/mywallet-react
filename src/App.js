@@ -22,10 +22,10 @@ function App() {
                     <Home />
                 </Route>
                 <Route path="/new-income" exact>
-                    <NewTransaction type="entrada" />
+                    <NewTransaction type="income" />
                 </Route>
                 <Route path="/new-expense" exact>
-                    <NewTransaction type="saída" />
+                    <NewTransaction type="expense" />
                 </Route>
             </Switch>
         </Router>
