@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignIn from "./Sign/SignIn";
-import SignUp from "./Sign/SignUp";
-import ResetCSS from "./styles/ResetCSS";
-import GlobalStyle from "./styles/GlobalStyle";
+import SignIn from "./components/Sign/SignIn";
+import SignUp from "./components/Sign/SignUp";
+import Home from "./components/Home/Home";
+import ResetCSS from "./components/styles/ResetCSS";
+import GlobalStyle from "./components/styles/GlobalStyle";
 
 function App() {
     return (
@@ -16,10 +17,10 @@ function App() {
                 <Route path="/sign-up" exact>
                     <SignUp />
                 </Route>
-                {/* <Route path="/home" exact>
+                <Route path="/home" exact>
                     <Home />
                 </Route>
-                <Route path="/add-in" exact>
+                {/* <Route path="/add-in" exact>
                     <AddIn />
                 </Route>
                 <Route path="/add-out" exact>
