@@ -4,6 +4,7 @@ import SignUp from "./components/Sign/SignUp";
 import Home from "./components/Home/Home";
 import ResetCSS from "./components/styles/ResetCSS";
 import GlobalStyle from "./components/styles/GlobalStyle";
+import NewTransaction from "./components/NewTransaction/NewTransaction";
 
 function App() {
     return (
@@ -20,12 +21,12 @@ function App() {
                 <Route path="/home" exact>
                     <Home />
                 </Route>
-                {/* <Route path="/add-in" exact>
-                    <AddIn />
+                <Route path="/new-income" exact>
+                    <NewTransaction type="entrada" />
                 </Route>
-                <Route path="/add-out" exact>
-                    <AddOut />
-                </Route> */}
+                <Route path="/new-expense" exact>
+                    <NewTransaction type="saída" />
+                </Route>
             </Switch>
         </Router>
     );

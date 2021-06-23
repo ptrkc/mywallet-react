@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import TransactionsCard from "./TransactionsCard";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 
 export default function SignIn() {
+    const history = useHistory();
     const name = "Fulano";
     return (
         <PageStyle>
@@ -16,7 +17,7 @@ export default function SignIn() {
             </Title>
             <TransactionsCard />
             <Buttons>
-                <button>
+                <button onClick={() => history.push("/new-income")}>
                     <AiOutlinePlusCircle />
                     <div>
                         <span>Nova</span>
@@ -24,7 +25,7 @@ export default function SignIn() {
                     </div>
                 </button>
                 <div className="spacer" />
-                <button>
+                <button onClick={() => history.push("/new-expense")}>
                     <AiOutlineMinusCircle />
                     <div>
                         <span>Nova</span>
