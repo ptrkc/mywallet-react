@@ -5,7 +5,7 @@ import Home from "./components/Home/Home";
 import ResetCSS from "./components/styles/ResetCSS";
 import GlobalStyle from "./components/styles/GlobalStyle";
 import NewTransaction from "./components/NewTransaction/NewTransaction";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UserContext from "./contexts/UserContext";
 import User from "./components/User";
 

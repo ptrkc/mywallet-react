@@ -5,15 +5,30 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import UserContext from "../../contexts/UserContext";
 import { useContext, useEffect } from "react";
+import axios from "axios";
 
 export default function SignIn() {
     const history = useHistory();
     const { user, setUser } = useContext(UserContext);
 
     function signOut() {
-        localStorage.removeItem("user");
-        setUser(null);
-        history.push("/sign-in");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+        const signOutRequest = axios.post(
+            "http://localhost:4000/sign-out",
+            {},
+            config
+        );
+        signOutRequest.then(() => {
+            localStorage.removeItem("user");
+            setUser(null);
+        });
+        signOutRequest.catch((error) =>
+            alert(error.response.status + ": " + error.response.data)
+        );
     }
 
     return (

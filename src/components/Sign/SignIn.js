@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     const history = useHistory();
 
     function signIn(e) {
