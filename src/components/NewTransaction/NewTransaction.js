@@ -63,11 +63,17 @@ export default function NewTransaction({ type }) {
             <input
                 placeholder="Valor"
                 type="text"
-                inputmode="numeric"
+                inputMode="numeric"
                 step="0.01"
                 lang="pt-BR"
                 value={value}
                 onChange={(e) => changeValue(e)}
+                onFocus={() => {
+                    if (value === "") setValue("0,00");
+                }}
+                onBlur={() => {
+                    if (parseFloat(value) === 0) setValue("");
+                }}
             ></input>
             <input
                 placeholder="Descrição"

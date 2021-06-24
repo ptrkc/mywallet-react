@@ -5,8 +5,9 @@ import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 
 export default function TransactionsCard() {
-    const [transactions, setTransactions] = useState(false);
-    const [balance, setBalance] = useState(false);
+    const [message, setMessage] = useState("Carregando...");
+    const [transactions, setTransactions] = useState(null);
+    const [balance, setBalance] = useState(null);
     const { user } = useContext(UserContext);
     useEffect(() => {
         if (user) {
@@ -24,9 +25,12 @@ export default function TransactionsCard() {
         request.then((response) => {
             setTransactions(response.data.transactions);
             setBalance(response.data.balance);
+            if (!response.data.transactions.length) {
+                setMessage("Não há registros de entrada ou saída");
+            }
         });
         request.catch((error) => {
-            alert(error.response);
+            setMessage(`Error ${error.response}`);
         });
     }
 
@@ -39,11 +43,8 @@ export default function TransactionsCard() {
 
     return (
         <CardStyle>
-            {!transactions && <div className="empty">Carregando...</div>}
-            {transactions && !transactions.length && (
-                <div className="empty">
-                    Não há registros de entrada ou saída
-                </div>
+            {(transactions === null || !transactions.length) && (
+                <div className="message">{message}</div>
             )}
             {transactions && !!transactions.length && (
                 <ul>
@@ -61,7 +62,7 @@ export default function TransactionsCard() {
                     })}
                 </ul>
             )}
-            {balance && (
+            {balance !== null && (
                 <Balance positive={balance >= 0}>
                     <strong>SALDO:</strong>
                     <span> {formatNumber(balance)}</span>
@@ -86,7 +87,7 @@ const CardStyle = styled.div`
         padding: 23px 15px;
         background-color: transparent;
     }
-    .empty {
+    .message {
         margin: auto;
         display: flex;
         justify-content: center;
