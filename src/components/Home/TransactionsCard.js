@@ -8,33 +8,11 @@ export default function TransactionsCard() {
     const [transactions, setTransactions] = useState(false);
     const [balance, setBalance] = useState(false);
     const { user } = useContext(UserContext);
-    const tempTransactions = [
-        {
-            id: 12,
-            description: "Celular",
-            value: 0,
-            type: "expense",
-            date: "2021-06-22",
-        },
-        {
-            id: 11,
-            description: "Açaí",
-            value: 1,
-            type: "income",
-            date: "2021-06-22",
-        },
-    ];
     useEffect(() => {
         if (user) {
             getTransactions();
         }
     }, [user]);
-
-    useEffect(() => {
-        if (transactions) {
-            calculateBalance();
-        }
-    }, [transactions]);
 
     function getTransactions() {
         const config = {
@@ -44,29 +22,19 @@ export default function TransactionsCard() {
         };
         const request = axios.get("http://localhost:4000/transactions", config);
         request.then((response) => {
-            setTransactions(response.data);
+            setTransactions(response.data.transactions);
+            setBalance(response.data.balance);
         });
         request.catch((error) => {
             alert(error.response);
         });
     }
 
-    function calculateBalance() {
-        console.log(transactions.length);
-        if (!transactions.length) {
-            return;
-        }
-        let total = 0;
-        transactions.forEach((t) => {
-            t.type === "income" ? (total += t.value) : (total -= t.value);
-        });
-        const positive = total >= 0 ? true : false;
-        const strTotal = String(total).replace("-", "").padStart(3, "0");
-        const formatedBalance = `${strTotal.slice(
-            0,
-            strTotal.length - 2
-        )},${strTotal.slice(-2)}`;
-        setBalance({ value: formatedBalance, positive });
+    function formatNumber(int) {
+        const str = String(int).replace("-", "").padStart(3, "0");
+        const formattedNumber = `
+        ${str.slice(0, str.length - 2)},${str.slice(-2)}`;
+        return formattedNumber;
     }
 
     return (
@@ -80,27 +48,23 @@ export default function TransactionsCard() {
             {transactions && !!transactions.length && (
                 <ul>
                     {transactions.map((t) => {
-                        const value = String(t.value).padStart(3, "0");
-                        const formatedValue =
-                            value.slice(0, value.length - 2) +
-                            "," +
-                            value.slice(-2);
+                        const formattedValue = formatNumber(t.value);
                         const date = dayjs(t.date).format("DD/MM");
                         return (
                             <Transaction type={t.type} key={t.id}>
                                 <div>
                                     <span>{date}</span> {t.description}
                                 </div>
-                                <span> {formatedValue}</span>
+                                <span> {formattedValue}</span>
                             </Transaction>
                         );
                     })}
                 </ul>
             )}
             {balance && (
-                <Balance positive={balance.positive}>
+                <Balance positive={balance >= 0}>
                     <strong>SALDO:</strong>
-                    <span> {balance.value}</span>
+                    <span> {formatNumber(balance)}</span>
                 </Balance>
             )}
         </CardStyle>
