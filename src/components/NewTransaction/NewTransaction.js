@@ -14,9 +14,10 @@ export default function NewTransaction({ type }) {
     const displayType = type === "income" ? "entrada" : "saída";
 
     function changeValue(e) {
-        let newValue = parseInt(e.target.value.replace(/\D/g, ""));
-        if (isNaN(newValue)) newValue = 0;
-        newValue = String(newValue).padStart(3, "0");
+        let newValue = e.target.value.replace(/\D/g, "");
+        newValue = newValue.replace(/^0+/, "");
+        if (newValue.length > 9) newValue = newValue.slice(0, 9);
+        newValue = newValue.padStart(3, "0");
         newValue = `${newValue.slice(0, newValue.length - 2)},${newValue.slice(
             -2
         )}`;
@@ -25,11 +26,7 @@ export default function NewTransaction({ type }) {
 
     function sendNewTransaction(e) {
         e.preventDefault();
-        if (
-            !value.trim() ||
-            parseInt(value.replace(",", "")) < 0 ||
-            !description.trim()
-        ) {
+        if (!value.trim() || value === "0,00" || !description.trim()) {
             alert("Todos os campos devem ser preenchidos");
             return;
         }
@@ -53,7 +50,7 @@ export default function NewTransaction({ type }) {
             history.push("/");
         });
         request.catch((error) => {
-            alert(error.response);
+            alert(error.response.status + ": " + error.response.data);
         });
     }
 
@@ -64,15 +61,13 @@ export default function NewTransaction({ type }) {
                 placeholder="Valor"
                 type="text"
                 inputMode="numeric"
-                step="0.01"
-                lang="pt-BR"
                 value={value}
                 onChange={(e) => changeValue(e)}
                 onFocus={() => {
                     if (value === "") setValue("0,00");
                 }}
                 onBlur={() => {
-                    if (parseFloat(value) === 0) setValue("");
+                    if (parseInt(value.replace(",", "")) === 0) setValue("");
                 }}
             ></input>
             <input

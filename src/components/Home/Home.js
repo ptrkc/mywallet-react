@@ -4,7 +4,7 @@ import TransactionsCard from "./TransactionsCard";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import UserContext from "../../contexts/UserContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import axios from "axios";
 
 export default function SignIn() {
@@ -34,7 +34,7 @@ export default function SignIn() {
     return (
         <PageStyle>
             <Title>
-                <h2>Olá, {user?.name}</h2>
+                <h2>Olá, {user?.name.split(" ")[0]}</h2>
                 <button onClick={signOut}>
                     <RiLogoutBoxRLine />
                 </button>
@@ -116,6 +116,9 @@ const PageStyle = styled.div`
         font-size: 26px;
         font-weight: bold;
         margin: 25px 0px 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     a {
         margin-top: 36px;

@@ -1,7 +1,7 @@
 import StyledForm from "../styles/StyledForm";
 import { Link, useHistory } from "react-router-dom";
 import SignPageStyle from "./SignPagesStyle";
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 
