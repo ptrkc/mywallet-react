@@ -47,6 +47,7 @@ export default function TransactionsCard() {
                 }
             });
         }
+        // eslint-disable-next-line
     }, [user]);
 
     function formatNumber(int) {

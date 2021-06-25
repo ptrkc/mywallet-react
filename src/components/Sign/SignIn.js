@@ -34,7 +34,11 @@ export default function SignIn() {
         });
         request.catch((error) => {
             setLoading(false);
-            alert(error.response.status + ": " + error.response.data);
+            if (error.response.status === 401) {
+                alert("Combinação email/senha incorreta");
+            } else {
+                alert(error.response.status + ": " + error.response.data);
+            }
         });
     }
     return (

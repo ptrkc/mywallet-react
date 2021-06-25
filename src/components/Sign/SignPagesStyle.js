@@ -6,7 +6,7 @@ const SignPageStyle = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     a {
         margin-top: 36px;
         text-decoration: none;

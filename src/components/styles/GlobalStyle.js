@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
     font-family: 'Raleway', sans-serif;
     min-width: 320px;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0px auto;
   }
   h1 {
