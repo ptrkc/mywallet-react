@@ -60,7 +60,7 @@ export default function SignUp() {
                 ></input>
                 <input
                     placeholder="E-mail"
-                    type="text"
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}

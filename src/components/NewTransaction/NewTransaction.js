@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
@@ -11,7 +11,7 @@ export default function NewTransaction({ type }) {
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
     const { user } = useContext(UserContext);
-
+    const inputRef = useRef();
     const history = useHistory();
     const displayType = type === "income" ? "entrada" : "saída";
 
@@ -60,6 +60,13 @@ export default function NewTransaction({ type }) {
         });
     }
 
+    function handleKeyPress(event) {
+        if (value.length < 5) {
+            inputRef.current.focus();
+            inputRef.current.selectionStart = value.length;
+            inputRef.current.selectionEnd = value.length;
+        }
+    }
     return (
         <StyledForm onSubmit={sendNewTransaction}>
             <Title>Nova {displayType}</Title>
@@ -68,6 +75,7 @@ export default function NewTransaction({ type }) {
                 type="text"
                 inputMode="numeric"
                 value={value}
+                onKeyDownCapture={(e) => handleKeyPress(e)}
                 onChange={(e) => changeValue(e)}
                 onFocus={() => {
                     if (value === "") setValue("0,00");
@@ -76,6 +84,7 @@ export default function NewTransaction({ type }) {
                     if (parseInt(value.replace(",", "")) === 0) setValue("");
                 }}
                 disabled={loading}
+                ref={inputRef}
             ></input>
             <input
                 placeholder="Descrição"

@@ -50,7 +50,7 @@ export default function SignIn() {
             <StyledForm onSubmit={signIn}>
                 <input
                     placeholder="E-mail"
-                    type="text"
+                    type="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     disabled={loading}
