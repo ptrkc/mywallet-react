@@ -54,6 +54,9 @@ export default function NewTransaction({ type }) {
         request.catch((error) => {
             setLoading(false);
             alert(error.response.status + ": " + error.response.data);
+            if (error.response.status) {
+                history.push("/sign-out");
+            }
         });
     }
 

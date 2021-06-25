@@ -9,6 +9,8 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
     font-family: 'Raleway', sans-serif;
     min-width: 320px;
+    max-width: 600px;
+    margin: 0px auto;
   }
   h1 {
     font-family: 'Saira Stencil One', cursive;
@@ -26,7 +28,8 @@ const GlobalStyle = createGlobalStyle`
     transition: .2s;
 
   }
-  button:hover{
+  button:hover,
+  button:focus {
     filter: brightness(1.1);
   }
   input::placeholder {

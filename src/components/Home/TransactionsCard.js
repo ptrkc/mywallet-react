@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 import Loader from "react-loader-spinner";
+import { useHistory } from "react-router-dom";
 
 export default function TransactionsCard() {
     const [message, setMessage] = useState(
@@ -12,6 +13,7 @@ export default function TransactionsCard() {
     const [transactions, setTransactions] = useState(null);
     const [balance, setBalance] = useState(null);
     const { user } = useContext(UserContext);
+    const history = useHistory();
 
     useEffect(() => {
         if (user) {
@@ -35,7 +37,14 @@ export default function TransactionsCard() {
                 }
             });
             request.catch((error) => {
-                setMessage(`Error ${error.response}`);
+                setMessage(
+                    `Error ${
+                        error.response.status + ": " + error.response.data
+                    }`
+                );
+                if (error.response.status) {
+                    history.push("/sign-out");
+                }
             });
         }
     }, [user]);
