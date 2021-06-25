@@ -26,7 +26,10 @@ export default function SignIn() {
         }
         setLoading(true);
         const body = { email, password };
-        const request = axios.post(`${process.env.API}/sign-in`, body);
+        const request = axios.post(
+            `${process.env.REACT_APP_API}/sign-in`,
+            body
+        );
         request.then((response) => {
             localStorage.setItem("user", JSON.stringify(response.data));
             setUser(response.data);

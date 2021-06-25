@@ -35,7 +35,10 @@ export default function SignUp() {
         }
         setLoading(true);
         const body = { name, email, password };
-        const request = axios.post(`${process.env.API}/sign-up`, body);
+        const request = axios.post(
+            `${process.env.REACT_APP_API}/sign-up`,
+            body
+        );
         request.then((response) => {
             history.push("/sign-in");
         });

@@ -26,7 +26,7 @@ export default function TransactionsCard() {
                 },
             };
             const request = axios.get(
-                `${process.env.API}/transactions`,
+                `${process.env.REACT_APP_API}/transactions`,
                 config
             );
             request.then((response) => {

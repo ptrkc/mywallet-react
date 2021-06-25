@@ -44,7 +44,7 @@ export default function NewTransaction({ type }) {
             },
         };
         const request = axios.post(
-            `${process.env.API}/transaction`,
+            `${process.env.REACT_APP_API}/transaction`,
             body,
             config
         );
