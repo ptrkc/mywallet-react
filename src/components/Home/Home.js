@@ -5,37 +5,21 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
-import axios from "axios";
 
 export default function SignIn() {
     const history = useHistory();
-    const { user, setUser } = useContext(UserContext);
-
-    function signOut() {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-        };
-        const signOutRequest = axios.post(
-            "http://localhost:4000/sign-out",
-            {},
-            config
-        );
-        signOutRequest.then(() => {
-            localStorage.removeItem("user");
-            setUser(null);
-        });
-        signOutRequest.catch((error) =>
-            alert(error.response.status + ": " + error.response.data)
-        );
+    const { user } = useContext(UserContext);
+    function confirmSignOut() {
+        const imSure = window.confirm("Tem certeza que deseja sair?");
+        if (imSure) {
+            history.push("/sign-out");
+        }
     }
-
     return (
         <PageStyle>
             <Title>
                 <h2>Olá, {user?.name.split(" ")[0]}</h2>
-                <button onClick={signOut}>
+                <button onClick={confirmSignOut}>
                     <RiLogoutBoxRLine />
                 </button>
             </Title>

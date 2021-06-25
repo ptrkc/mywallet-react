@@ -21,7 +21,7 @@ export default function SignIn() {
             return;
         }
         if (!checkEmail(email)) {
-            alert("Insira um email válido.");
+            alert("Insira um email válido");
             return;
         }
         setLoading(true);

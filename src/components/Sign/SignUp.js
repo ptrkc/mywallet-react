@@ -26,7 +26,7 @@ export default function SignUp() {
             return;
         }
         if (!checkEmail(email)) {
-            alert("Insira um email válido.");
+            alert("Insira um email válido");
             return;
         }
         if (password !== passConfirm) {
