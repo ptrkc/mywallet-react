@@ -26,7 +26,7 @@ export default function SignIn() {
         }
         setLoading(true);
         const body = { email, password };
-        const request = axios.post("http://localhost:4000/sign-in", body);
+        const request = axios.post(`${process.env.API}/sign-in`, body);
         request.then((response) => {
             localStorage.setItem("user", JSON.stringify(response.data));
             setUser(response.data);

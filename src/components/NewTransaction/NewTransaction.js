@@ -44,7 +44,7 @@ export default function NewTransaction({ type }) {
             },
         };
         const request = axios.post(
-            "http://localhost:4000/transaction",
+            `${process.env.API}/transaction`,
             body,
             config
         );

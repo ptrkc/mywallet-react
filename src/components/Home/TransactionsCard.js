@@ -26,7 +26,7 @@ export default function TransactionsCard() {
                 },
             };
             const request = axios.get(
-                "http://localhost:4000/transactions",
+                `${process.env.API}/transactions`,
                 config
             );
             request.then((response) => {

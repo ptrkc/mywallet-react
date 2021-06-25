@@ -26,7 +26,7 @@ export default function SignOut() {
             },
         };
         const signOutRequest = axios.post(
-            "http://localhost:4000/sign-out",
+            `${process.env.API}/sign-out`,
             {},
             config
         );
