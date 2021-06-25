@@ -11,6 +11,17 @@ const GlobalStyle = createGlobalStyle`
     min-width: 320px;
     max-width: 800px;
     margin: 0px auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
   }
   h1 {
     font-family: 'Saira Stencil One', cursive;
