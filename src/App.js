@@ -9,7 +9,7 @@ import NewTransaction from "./components/NewTransaction/NewTransaction";
 import { useState } from "react";
 import UserContext from "./contexts/UserContext";
 import User from "./components/User";
-import { CSSTransition } from "react-transition-group";
+import NotFound from "./components/NotFound";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -37,6 +37,9 @@ function App() {
                     </Route>
                     <Route path="/new-expense" exact>
                         <NewTransaction type="expense" />
+                    </Route>
+                    <Route path="*">
+                        <NotFound />
                     </Route>
                 </Switch>
             </Router>
