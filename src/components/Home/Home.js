@@ -73,7 +73,7 @@ const Title = styled.div`
         font-size: 28px;
         border: none;
         height: 40px;
-        background-color: transparent;
+        background-color: #8c11be;
         color: white;
     }
 `;

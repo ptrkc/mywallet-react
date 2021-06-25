@@ -19,6 +19,10 @@ const StyledForm = styled.form`
         border: none;
         width: 100%;
     }
+    input:disabled,
+    button:disabled {
+        filter: brightness(0.8);
+    }
     input {
         color: #000000;
         background-color: #ffffff;

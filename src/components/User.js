@@ -11,6 +11,7 @@ export default function User() {
         } else if (!localStorage.user) {
             history.push("/sign-in");
         }
+        // eslint-disable-next-line
     }, [user]);
 
     return null;

@@ -23,6 +23,11 @@ const GlobalStyle = createGlobalStyle`
     background-color: #A328D6;
     border-radius: 5px;
     cursor: pointer;
+    transition: .2s;
+
+  }
+  button:hover{
+    filter: brightness(1.1);
   }
   input::placeholder {
     opacity: 1;

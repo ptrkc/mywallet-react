@@ -3,8 +3,11 @@ import { Link, useHistory } from "react-router-dom";
 import SignPageStyle from "./SignPagesStyle";
 import axios from "axios";
 import { useState } from "react";
+import Loader from "react-loader-spinner";
+import checkEmail from "./checkEmail";
 
 export default function SignUp() {
+    const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,18 +25,22 @@ export default function SignUp() {
             alert("Todos os campos devem ser preenchidos");
             return;
         }
+        if (!checkEmail(email)) {
+            alert("Insira um email válido.");
+            return;
+        }
         if (password !== passConfirm) {
             alert("Senhas não coincidem");
             return;
         }
-        //verificar formato do email
+        setLoading(true);
         const body = { name, email, password };
-        //Travar botões/inputs
         const request = axios.post("http://localhost:4000/sign-up", body);
         request.then((response) => {
             history.push("/sign-in");
         });
         request.catch((error) => {
+            setLoading(false);
             alert(error.response.status + ": " + error.response.data);
         });
     }
@@ -46,26 +53,41 @@ export default function SignUp() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
                 ></input>
                 <input
                     placeholder="E-mail"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
                 ></input>
                 <input
                     placeholder="Senha"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
                 ></input>
                 <input
                     placeholder="Confirme a senha"
                     type="password"
                     value={passConfirm}
                     onChange={(e) => setPassConfirm(e.target.value)}
+                    disabled={loading}
                 ></input>
-                <button onClick={signUp}>Cadastrar</button>
+                <button onClick={signUp} disabled={loading}>
+                    {loading ? (
+                        <Loader
+                            type="ThreeDots"
+                            color="#FFFFFF"
+                            width={51}
+                            height={13}
+                        />
+                    ) : (
+                        <>Cadastrar</>
+                    )}
+                </button>
             </StyledForm>
             <Link to="/sign-in">Já tem uma conta? Entre agora!</Link>
         </SignPageStyle>

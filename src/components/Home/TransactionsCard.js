@@ -3,36 +3,42 @@ import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
+import Loader from "react-loader-spinner";
 
 export default function TransactionsCard() {
-    const [message, setMessage] = useState("Carregando...");
+    const [message, setMessage] = useState(
+        <Loader type="TailSpin" color="#a5a5a5" height={80} width={80} />
+    );
     const [transactions, setTransactions] = useState(null);
     const [balance, setBalance] = useState(null);
     const { user } = useContext(UserContext);
+
     useEffect(() => {
         if (user) {
             getTransactions();
         }
+        function getTransactions() {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            };
+            const request = axios.get(
+                "http://localhost:4000/transactions",
+                config
+            );
+            request.then((response) => {
+                setTransactions(response.data.transactions);
+                setBalance(response.data.balance);
+                if (!response.data.transactions.length) {
+                    setMessage("Não há registros de entrada ou saída");
+                }
+            });
+            request.catch((error) => {
+                setMessage(`Error ${error.response}`);
+            });
+        }
     }, [user]);
-
-    function getTransactions() {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-        };
-        const request = axios.get("http://localhost:4000/transactions", config);
-        request.then((response) => {
-            setTransactions(response.data.transactions);
-            setBalance(response.data.balance);
-            if (!response.data.transactions.length) {
-                setMessage("Não há registros de entrada ou saída");
-            }
-        });
-        request.catch((error) => {
-            setMessage(`Error ${error.response}`);
-        });
-    }
 
     function formatNumber(int) {
         const str = String(int).replace("-", "").padStart(3, "0");

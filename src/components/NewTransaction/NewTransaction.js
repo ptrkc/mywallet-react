@@ -4,8 +4,10 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 import StyledForm from "../styles/StyledForm";
+import Loader from "react-loader-spinner";
 
 export default function NewTransaction({ type }) {
+    const [loading, setLoading] = useState(false);
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
     const { user } = useContext(UserContext);
@@ -30,12 +32,12 @@ export default function NewTransaction({ type }) {
             alert("Todos os campos devem ser preenchidos");
             return;
         }
+        setLoading(true);
         const body = {
             description,
             value: parseInt(value.replace(",", "")),
             type,
         };
-        //Travar botões/inputs
         const config = {
             headers: {
                 Authorization: `Bearer ${user.token}`,
@@ -50,6 +52,7 @@ export default function NewTransaction({ type }) {
             history.push("/");
         });
         request.catch((error) => {
+            setLoading(false);
             alert(error.response.status + ": " + error.response.data);
         });
     }
@@ -69,14 +72,27 @@ export default function NewTransaction({ type }) {
                 onBlur={() => {
                     if (parseInt(value.replace(",", "")) === 0) setValue("");
                 }}
+                disabled={loading}
             ></input>
             <input
                 placeholder="Descrição"
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                disabled={loading}
             ></input>
-            <button onClick={sendNewTransaction}>Salvar {displayType}</button>
+            <button onClick={sendNewTransaction} disabled={loading}>
+                {loading ? (
+                    <Loader
+                        type="ThreeDots"
+                        color="#FFFFFF"
+                        width={51}
+                        height={13}
+                    />
+                ) : (
+                    <>Salvar {displayType}</>
+                )}
+            </button>
         </StyledForm>
     );
 }
