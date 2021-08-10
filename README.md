@@ -2,6 +2,8 @@
 
 An easy to use financial manager. Track your revenues and expenses to learn how you spend your money and know all the time how much you have.
 
+https://user-images.githubusercontent.com/40273827/128798925-782ef7b3-ffe0-4c2c-9ee2-faced240befc.mp4
+
 Try it out now at https://mywallet-react.vercel.app/
 
 ## About
