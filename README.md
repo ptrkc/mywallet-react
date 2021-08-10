@@ -32,16 +32,17 @@ The following tools and frameworks were used in the construction of the project:
 
 1. Clone and follow instructions to run the back-end at https://github.com/ptrkc/mywallet-api
 2. Clone this repository
-3. Install dependencies
+3. Create a file named `.env` following the provided `.env.example`
+4. Install the dependencies
 
 ```bash
 npm i
 ```
 
-4. Run the front-end with
+5. Run the front-end with
 
 ```bash
 npm start
 ```
 
-5. Open http://localhost:3000 on your browser
+6. Open http://localhost:3000 on your browser
